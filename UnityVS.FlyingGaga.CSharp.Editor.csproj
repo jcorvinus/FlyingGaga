@@ -120,6 +120,10 @@
       <Project>{025FDE34-DFC4-4FD4-85E6-28A2A5E08CC0}</Project>
       <Name>UnityVS.FlyingGaga.CSharp.Plugins</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityVS.FlyingGaga.CSharp.csproj">
+      <Project>{95E8A1FF-1927-4D48-510A-91BD4169718E}</Project>
+      <Name>UnityVS.FlyingGaga.CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
@@ -136,8 +140,13 @@
     <Compile Include="Assets\Editor\ImageEffects\SunShaftsEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
+    <Compile Include="Assets\OVR\Moonlight\Editor\OVRMoonlightLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\OVR\Moonlight\Resources\Unlit Transparent Color.shader" />
+    <None Include="Assets\OVR\Moonlight\Shaders\OVRColorRampAlpha.shader" />
+    <None Include="Assets\OVR\Moonlight\Shaders\Unlit Crosshair.shader" />
+    <None Include="Assets\Plugins\Android\assets\donotdelete.txt" />
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
