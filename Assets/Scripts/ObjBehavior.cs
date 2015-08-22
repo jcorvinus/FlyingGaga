@@ -3,7 +3,8 @@ using System.Collections;
 
 public enum BounceType { Stalling=1, Medium=2, Perfect=3, HighMedium=4 }
 
-public class ObjBehavior : MonoBehaviour {
+public class ObjBehavior : MonoBehaviour 
+{
 	//Player reference. NOTE:Player needs player tag
 	public Rigidbody PlayerRigidBody;
 	private float OperantForce;
@@ -14,6 +15,9 @@ public class ObjBehavior : MonoBehaviour {
 	//4 denotes a speeding up object and launches at 60 deg
 	//NOTE: as these were made in ascending order 3 is actually more powerful than 4
 	public BounceType bounceStrength;
+
+	public Vector3[] AngleValues = new Vector3[] { new Vector3(0f, 0.133f, 1f),
+		new Vector3(0f, 1.7f, 3f), new Vector3(0f, 0.7f, 0.7f), new Vector3(0f, 1.7f, 1f) };
 
 	public GameObject[] ModelList;
 	// Use this for initialization
@@ -26,47 +30,31 @@ public class ObjBehavior : MonoBehaviour {
 	void OnEnable()
 	{
 		foreach (GameObject model in ModelList) model.SetActive(false);
-		ModelList[(int)bounceStrength].SetActive(true);
+		ModelList[(int)bounceStrength - 1].SetActive(true);
 	}
 
-	void OnCollisionEnter (Collision col){
-		//Additional force I used to simualte my objects moving faster and keep pacing
-		//May ultimately be unnecessary.
-		OperantForce = 40;
-		//bounceStrength is something I was planning on attributing to the individual assets themselves.
-		if((int)bounceStrength==1){
-			//15 deg
-			Vector3 v31 = new Vector3(0f,0.133f,1f);
-			OperantForce = 3+(0.50f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(v31 * OperantForce, ForceMode.VelocityChange);
-		}
-		if ((int)bounceStrength == 2)
+	void OnCollisionEnter (Collision col)
+	{
+		if (col.gameObject.tag == "Player")
 		{
-			//30deg
-			Vector3 v32 = new Vector3(0f,1.7f,3f);
-			OperantForce = 3+(1.25f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(v32 * OperantForce, ForceMode.VelocityChange);
+			//Additional force I used to simualte my objects moving faster and keep pacing
+			//May ultimately be unnecessary.
+			OperantForce = 10;
+			//bounceStrength is something I was planning on attributing to the individual assets themselves.
+			if ((int)bounceStrength == 1)
+			{
+				PlayerRigidBody.AddForce(AngleValues[(int)bounceStrength - 1].normalized * (PlayerRigidBody.velocity.magnitude * 0.45f));
+			}
+			else
+			{
+				PlayerRigidBody.AddForce(AngleValues[(int)bounceStrength - 1].normalized * OperantForce);
+			}
 		}
-		if ((int)bounceStrength == 3)
-		{
-			//45 deg
-			Vector3 v33 = new Vector3(0f,0.7f,0.7f);
-			OperantForce = 3+(1.5f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(v33 * OperantForce, ForceMode.VelocityChange);
-		}
-		if ((int)bounceStrength == 4)
-		{
-			//60 deg
-			Vector3 v34 = new Vector3(0f,1.7f,1f);
-			OperantForce = 3+(2f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(v34 * OperantForce, ForceMode.VelocityChange);
-		
-		}
-	}	
+	}
 
-
-	// Update is called once per frame
-	void Update () {
-
+	void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawRay(transform.position, AngleValues[(int)bounceStrength - 1]);
 	}
 }

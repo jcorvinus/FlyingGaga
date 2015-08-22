@@ -58,8 +58,9 @@ public class GameController : MonoBehaviour
 
 			// clearing world managers
 			foreach (GameObject worldMan in WorldManagers) worldMan.SendMessage("Clear");
-
-			RestartText.gameObject.SetActive(false);
 		}
+
+		playerController.DistanceTraveled = 0;
+		RestartText.gameObject.SetActive(false);
 	}
 }

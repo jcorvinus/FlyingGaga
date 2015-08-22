@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
 			HasLaunched = true;
 			Debug.Log("Starting Countdown!");
 			SendMessage("OnPlayerCountdown", SendMessageOptions.DontRequireReceiver);
+			DistanceTraveled = 0;
 		}
 		else
 		{

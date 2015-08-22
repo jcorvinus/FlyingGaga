@@ -56,8 +56,7 @@ public class ScenicBehavior : MonoBehaviour {
 		//3 lanes planned through copy and paste upon completion of generating code.
 		
 		float leftBound = gameObject.transform.localPosition.x;
-		float rightBound = leftBound+3f;
-	
+		float rightBound = leftBound+3f;	
 		
 		float x = rnd (leftBound,rightBound);
 		
