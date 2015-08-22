@@ -10,7 +10,8 @@ public class WorldGen : MonoBehaviour {
 	//Initial distance loaded before player even fires
 	public float startSpawnDist = 200f;
 	//Object spawning in
-	public GameObject prefab;
+	public GameObject groundObject;
+	public GameObject airObject;
 	//Player reference. NOTE:Player needs player tag
 	private GameObject player; 
 	//Reference to the furthest object made
@@ -96,7 +97,9 @@ public class WorldGen : MonoBehaviour {
 				near = far;
 				far = far+2f;
 
-			GameObject newObject = (GameObject)Instantiate (prefab, new Vector3 (x, y, z), Quaternion.identity);
+			GameObject newObject = (GameObject)Instantiate (groundObject, new Vector3 (x, y, z), Quaternion.identity);
+			ObjBehavior objectBehavior = newObject.GetComponent<ObjBehavior>();
+			objectBehavior.bounceStrength = (BounceType)Random.Range(1, 4);
 			spawnedObjects.Add(newObject);
 
 			furthestMade = z;

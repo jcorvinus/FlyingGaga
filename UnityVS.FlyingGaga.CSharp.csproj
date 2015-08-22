@@ -99,6 +99,7 @@
     <Compile Include="Assets\OVR\Scripts\Util\OVRSceneSampleController.cs" />
     <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
     <Compile Include="Assets\OVR\Scripts\Util\OVRTrackerBounds.cs" />
+    <Compile Include="Assets\Scripts\AnimatedUVs.cs" />
     <Compile Include="Assets\Scripts\Countdown.cs" />
     <Compile Include="Assets\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
