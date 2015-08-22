@@ -67,4 +67,10 @@ public class MusicController : MonoBehaviour
 		targetClip = flyingMusic;
 		fadeTimer = fadeTimeInterval;
 	}
+
+	void OnPlayerReset()
+	{
+		targetClip = waitingMusic;
+		fadeTimer = fadeTimeInterval;
+	}
 }

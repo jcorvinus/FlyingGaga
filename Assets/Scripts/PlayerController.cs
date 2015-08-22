@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+	public delegate void PlayerEventHandler();
+	public event PlayerEventHandler PlayerStopped;
+	public event PlayerEventHandler PlayerReset;
+
 	#region Gameplay Variables
 	public bool HasLaunched = false;
 	public bool HasStopped = false;
@@ -18,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	public float DisplayCountDown = 5;
 	public int MaxCountDown=8;
 	public int MinCountDown=2;
-	private int countDownVariance=3;
+	private int countDownVariance=4;
 	public float LaunchForce = 1f;
 	private Vector3 launchDirection = Vector3.zero;
 	private Vector3 lookForceAdjust = Vector3.zero;
@@ -114,6 +118,8 @@ public class PlayerController : MonoBehaviour
 				{
 					HasStopped = true;
 					Debug.Log("Stopped!");
+					SendMessage("OnPlayerStopped", SendMessageOptions.DontRequireReceiver);
+					if(PlayerStopped != null) PlayerStopped();
 				}
 			}
 		}
@@ -155,6 +161,7 @@ public class PlayerController : MonoBehaviour
 		DistanceTraveled = 0f;
 		Debug.Log("Resetting player!");
 		SendMessage("OnPlayerReset", SendMessageOptions.DontRequireReceiver);
+		PlayerReset();
 	}
 
 	void OnCollisionEnter()
