@@ -27,19 +27,19 @@ public class ObjBehavior : MonoBehaviour {
 	void OnCollisionEnter (Collision col){
 		OperantForce = 40;
 		if(bounceStrength==1){
-			OperantForce = 0.70f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
+			OperantForce = 3+(0.50f*PlayerRigidBody.velocity.magnitude*10);
 			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==2){
-			OperantForce = 1.25f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
+			OperantForce = 3+(1.25f*PlayerRigidBody.velocity.magnitude*10);
 			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==3){
-			OperantForce = 1.5f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
+			OperantForce = 3+(1.5f*PlayerRigidBody.velocity.magnitude*10);
 			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==4){
-			OperantForce = 2f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
+			OperantForce = 3+(2f*PlayerRigidBody.velocity.magnitude*10);
 			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
 		
 		}
