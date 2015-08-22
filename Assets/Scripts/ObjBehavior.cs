@@ -27,20 +27,24 @@ public class ObjBehavior : MonoBehaviour {
 	void OnCollisionEnter (Collision col){
 		OperantForce = 40;
 		if(bounceStrength==1){
+			Vector3 v31 = new Vector3(0f,0.133f,1f);
 			OperantForce = 3+(0.50f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			PlayerRigidBody.AddForce(v31 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==2){
+			Vector3 v32 = new Vector3(0f,1.7f,3f);
 			OperantForce = 3+(1.25f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			PlayerRigidBody.AddForce(v32 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==3){
+			Vector3 v33 = new Vector3(0f,0.7f,0.7f);
 			OperantForce = 3+(1.5f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			PlayerRigidBody.AddForce(v33 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==4){
+			Vector3 v34 = new Vector3(0f,1.7f,1f);
 			OperantForce = 3+(2f*PlayerRigidBody.velocity.magnitude*10);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			PlayerRigidBody.AddForce(v34 * OperantForce, ForceMode.VelocityChange);
 		
 		}
 	}	
