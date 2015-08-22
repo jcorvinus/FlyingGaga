@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 
 	public GameObject FurthestDistanceMarker;
 	public TextMesh NewRecordText;
+	public TextMesh RestartText;
 	private PlayerController playerController;
 	private float distance=0;
 	private bool setDistance = false;
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
 		else setDistance = false;
 
 		NewRecordText.gameObject.SetActive(setDistance);
+		RestartText.gameObject.SetActive(true);
 	}
 
 	void OnPlayerReset()
@@ -56,6 +58,8 @@ public class GameController : MonoBehaviour
 
 			// clearing world managers
 			foreach (GameObject worldMan in WorldManagers) worldMan.SendMessage("Clear");
+
+			RestartText.gameObject.SetActive(false);
 		}
 	}
 }

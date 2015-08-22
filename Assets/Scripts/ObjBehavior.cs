@@ -19,6 +19,7 @@ public class ObjBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		PlayerRigidBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
 		OnEnable();
 	}
 
