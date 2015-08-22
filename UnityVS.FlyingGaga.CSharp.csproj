@@ -100,11 +100,20 @@
     <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
     <Compile Include="Assets\OVR\Scripts\Util\OVRTrackerBounds.cs" />
     <Compile Include="Assets\Scripts\Countdown.cs" />
+    <Compile Include="Assets\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MusicController.cs" />
+    <Compile Include="Assets\Scripts\ObjBehavior.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimation.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PlayerFollow.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\PlayerRaycastTrigger.cs" />
+    <Compile Include="Assets\Scripts\ScenicBehavior.cs" />
+    <Compile Include="Assets\Scripts\StripAligner.cs" />
+    <Compile Include="Assets\Scripts\TriggerRelay.cs" />
+    <Compile Include="Assets\Scripts\WorldGen.cs" />
+    <Compile Include="Assets\Scripts\WorldStripSpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\OVR\Moonlight\Resources\Unlit Transparent Color.shader" />

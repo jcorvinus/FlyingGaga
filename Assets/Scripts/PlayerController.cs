@@ -73,53 +73,56 @@ public class PlayerController : MonoBehaviour
 		DistanceText.text = string.Format("Total Distance: {0}", ((int)DistanceTraveled).ToString());
 		launchFailClashtimer -= Time.deltaTime;
 
-		if(!HasLaunched)
+		if (!HasStopped)
 		{
-			// align our cannon and HMD
-			CannonContainer.transform.rotation = CameraLooker.transform.rotation;
-
-			debugPrintTimer -= Time.deltaTime;
-			if (debugPrintTimer < 0)
+			if (!HasLaunched)
 			{
-				// debug print the dot product of our current look vs the launch constraint
-				Debug.Log(string.Format("LLock DotProd: {0}", Vector3.Dot(CameraLooker.transform.forward, LaunchConstraintVector)));
-				debugPrintTimer = debugPrintTimeInterval;
-			}
+				// align our cannon and HMD
+				CannonContainer.transform.rotation = CameraLooker.transform.rotation;
 
-			float constraintDot = Vector3.Dot(CameraLooker.transform.forward, LaunchConstraintVector);
-			if ((constraintDot >= MinConstraint) && (constraintDot <= MaxConstraint))
-			{
-				LaunchErrorObject.SetActive(false);
+				debugPrintTimer -= Time.deltaTime;
+				if (debugPrintTimer < 0)
+				{
+					// debug print the dot product of our current look vs the launch constraint
+					//Debug.Log(string.Format("LLock DotProd: {0}", Vector3.Dot(CameraLooker.transform.forward, LaunchConstraintVector)));
+					debugPrintTimer = debugPrintTimeInterval;
+				}
+
+				float constraintDot = Vector3.Dot(CameraLooker.transform.forward, LaunchConstraintVector);
+				if ((constraintDot >= MinConstraint) && (constraintDot <= MaxConstraint))
+				{
+					LaunchErrorObject.SetActive(false);
+				}
+				else
+				{
+					LaunchErrorObject.SetActive(true);
+				}
 			}
 			else
 			{
-				LaunchErrorObject.SetActive(true);
-			}
-		}
-		else
-		{
-			if(LaunchCountDown > 0)
-			{
-				LaunchCountDown -= Time.deltaTime;
-				DisplayCountDown -= Time.deltaTime;
+				if (LaunchCountDown > 0)
+				{
+					LaunchCountDown -= Time.deltaTime;
+					DisplayCountDown -= Time.deltaTime;
 
-				if(LaunchCountDown < 0)
-				{
-					PlayerRigidBody.AddForce(launchDirection, ForceMode.Impulse); // actually process force later.
-					PlayerRigidBody.useGravity = true;
-					AudioSource.PlayClipAtPoint(CannonLaunchClip, CameraLooker.transform.position);
-					Debug.Log("Launched!");
-					SendMessage("OnPlayerLaunch", SendMessageOptions.DontRequireReceiver);
+					if (LaunchCountDown < 0)
+					{
+						PlayerRigidBody.AddForce(launchDirection, ForceMode.Impulse); // actually process force later.
+						PlayerRigidBody.useGravity = true;
+						AudioSource.PlayClipAtPoint(CannonLaunchClip, CameraLooker.transform.position);
+						Debug.Log("Launched!");
+						SendMessage("OnPlayerLaunch", SendMessageOptions.DontRequireReceiver);
+					}
 				}
-			}
-			else // we've launched and are flying, not just sitting in the barrel waiting for countdown.
-			{
-				if(PlayerRigidBody.velocity.magnitude < 0.125f) // we've come to a stop.
+				else // we've launched and are flying, not just sitting in the barrel waiting for countdown.
 				{
-					HasStopped = true;
-					Debug.Log("Stopped!");
-					SendMessage("OnPlayerStopped", SendMessageOptions.DontRequireReceiver);
-					if(PlayerStopped != null) PlayerStopped();
+					if (PlayerRigidBody.velocity.magnitude < 0.125f) // we've come to a stop.
+					{
+						HasStopped = true;
+						Debug.Log("Stopped!");
+						SendMessage("OnPlayerStopped", SendMessageOptions.DontRequireReceiver);
+						if (PlayerStopped != null) PlayerStopped();
+					}
 				}
 			}
 		}
@@ -131,18 +134,21 @@ public class PlayerController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		// width constraints
-		if ((PlayerRigidBody.transform.position.x > (WidthConstraint / 2)) || PlayerRigidBody.transform.position.x < -(WidthConstraint / 2))
+		if (!HasStopped)
 		{
-			PlayerRigidBody.velocity = Vector3.Scale(PlayerRigidBody.velocity, new Vector3(0, 1, 1));
-		}
+			// width constraints
+			if ((PlayerRigidBody.transform.position.x > (WidthConstraint / 2)) || PlayerRigidBody.transform.position.x < -(WidthConstraint / 2))
+			{
+				PlayerRigidBody.velocity = Vector3.Scale(PlayerRigidBody.velocity, new Vector3(0, 1, 1));
+			}
 
-		lookForceAdjust = transform.position + Vector3.Scale(CameraLooker.transform.forward, motionNuller);
+			lookForceAdjust = transform.position + Vector3.Scale(CameraLooker.transform.forward, motionNuller);
 
-		// handle motion adjusting
-		if(HasLaunched && (LaunchCountDown <= 0) && (!HasStopped))
-		{
-			PlayerRigidBody.AddForce(Vector3.Scale(CameraLooker.transform.forward, motionNuller));
+			// handle motion adjusting
+			if (HasLaunched && (LaunchCountDown <= 0))
+			{
+				PlayerRigidBody.AddForce(Vector3.Scale(CameraLooker.transform.forward, motionNuller));
+			}
 		}
 	}
 

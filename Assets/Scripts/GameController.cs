@@ -3,11 +3,16 @@ using System.Collections;
 
 public class GameController : MonoBehaviour 
 {
+	public delegate void GameEventHandler();
+	public event GameEventHandler GameReset;
+
 	public GameObject FurthestDistanceMarker;
 	public TextMesh NewRecordText;
 	private PlayerController playerController;
 	private float distance=0;
 	private bool setDistance = false;
+
+	public GameObject[] WorldManagers;
 
 	// Use this for initialization
 	void Start () 
@@ -20,6 +25,7 @@ public class GameController : MonoBehaviour
 	void playerController_PlayerReset()
 	{
 		OnPlayerReset();
+		GameReset();
 	}
 
 	void playerController_PlayerStopped()
@@ -43,9 +49,13 @@ public class GameController : MonoBehaviour
 	{
 		if (setDistance)
 		{
-			FurthestDistanceMarker.transform.position = new Vector3(0, 0.55f, distance);
+			FurthestDistanceMarker.transform.position = new Vector3(0, 6.54f, distance);
 			FurthestDistanceMarker.SetActive(true);
 			NewRecordText.gameObject.SetActive(false);
+			Debug.Log(string.Format("SetDistance, {0}", FurthestDistanceMarker.transform.position));
+
+			// clearing world managers
+			foreach (GameObject worldMan in WorldManagers) worldMan.SendMessage("Clear");
 		}
 	}
 }
