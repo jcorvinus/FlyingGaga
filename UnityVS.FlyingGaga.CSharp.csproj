@@ -102,6 +102,7 @@
     <Compile Include="Assets\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\Scripts\ObjBehavior.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\ScenicBehavior.cs" />
     <Compile Include="Assets\Scripts\WorldGen.cs" />
   </ItemGroup>
   <ItemGroup>
