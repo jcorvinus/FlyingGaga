@@ -3,44 +3,47 @@ using System.Collections;
 
 public class ObjBehavior : MonoBehaviour {
 	//Player reference. NOTE:Player needs player tag
-	private GameObject player; 
-
 	public Rigidbody PlayerRigidBody;
 	private float OperantForce;
-
 	//Represents the type of object landed on
 	//1 denotes a slowing object and launches at 15 deg
-	//2 denotes a slowing object and launches at 30 deg
-	//3 denotes a slowing object and launches at 45 deg
-	//4 denotes a slowing object and launches at 60 deg
+	//2 denotes a speeding up object and launches at 30 deg
+	//3 denotes a speeding up object and launches at 45 deg
+	//4 denotes a speeding up object and launches at 60 deg
+	//NOTE: as these were made in ascending order 3 is actually more powerful than 4
 	public int bounceStrength;
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindWithTag("Player");
 	}
 
-
-	//If player hits the objects then corresponding velocity multiplier
-	//Launch from new angle
-
-
 	void OnCollisionEnter (Collision col){
+		//Additional force I used to simualte my objects moving faster and keep pacing
+		//May ultimately be unnecessary.
 		OperantForce = 40;
+		//bounceStrength is something I was planning on attributing to the individual assets themselves.
 		if(bounceStrength==1){
-			OperantForce = 0.70f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			//15 deg
+			Vector3 v31 = new Vector3(0f,0.133f,1f);
+			OperantForce = 3+(0.50f*PlayerRigidBody.velocity.magnitude*10);
+			PlayerRigidBody.AddForce(v31 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==2){
-			OperantForce = 1.25f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			//30deg
+			Vector3 v32 = new Vector3(0f,1.7f,3f);
+			OperantForce = 3+(1.25f*PlayerRigidBody.velocity.magnitude*10);
+			PlayerRigidBody.AddForce(v32 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==3){
-			OperantForce = 1.5f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			//45 deg
+			Vector3 v33 = new Vector3(0f,0.7f,0.7f);
+			OperantForce = 3+(1.5f*PlayerRigidBody.velocity.magnitude*10);
+			PlayerRigidBody.AddForce(v33 * OperantForce, ForceMode.VelocityChange);
 		}
 		if(bounceStrength==4){
-			OperantForce = 2f*OperantForce*(PlayerRigidBody.velocity.magnitude+1);
-			PlayerRigidBody.AddForce(Vector3.up * OperantForce, ForceMode.VelocityChange);
+			//60 deg
+			Vector3 v34 = new Vector3(0f,1.7f,1f);
+			OperantForce = 3+(2f*PlayerRigidBody.velocity.magnitude*10);
+			PlayerRigidBody.AddForce(v34 * OperantForce, ForceMode.VelocityChange);
 		
 		}
 	}	
