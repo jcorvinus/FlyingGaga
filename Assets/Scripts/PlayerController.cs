@@ -27,8 +27,7 @@ public class PlayerController : MonoBehaviour
 	private Vector3 launchDirection = Vector3.zero;
 	private Vector3 lookForceAdjust = Vector3.zero;
 	private Vector3 motionNuller = new Vector3(1,0,0);
-	
-	public int SelectedLane = 1; // valid values are 0 for left, 1 for mid, 2 for right
+
 	#endregion
 
 	// references to other objects
@@ -142,12 +141,14 @@ public class PlayerController : MonoBehaviour
 				PlayerRigidBody.velocity = Vector3.Scale(PlayerRigidBody.velocity, new Vector3(0, 1, 1));
 			}
 
-			lookForceAdjust = transform.position + Vector3.Scale(CameraLooker.transform.forward, motionNuller);
+			lookForceAdjust = CameraLooker.transform.forward * Mathf.Clamp01(PlayerRigidBody.velocity.magnitude);
+			lookForceAdjust.y = 0;
+			lookForceAdjust.z = 0;
 
 			// handle motion adjusting
 			if (HasLaunched && (LaunchCountDown <= 0))
 			{
-				PlayerRigidBody.AddForce(Vector3.Scale(CameraLooker.transform.forward, motionNuller));
+				PlayerRigidBody.AddForce(lookForceAdjust);
 			}
 		}
 	}
@@ -182,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
 	void OnDrawGizmosSelected()
 	{
-		Debug.DrawRay(transform.position, LaunchConstraintVector, Color.red);
+		Debug.DrawRay(transform.position, LaunchConstraintVector, Color.blue);
 
 		if (DrawWidthBox)
 		{
@@ -194,6 +195,8 @@ public class PlayerController : MonoBehaviour
 		{
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawCube(lookForceAdjust, Vector3.one);
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(transform.position, lookForceAdjust);
 		}
 	}
 

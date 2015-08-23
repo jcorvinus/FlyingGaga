@@ -18,13 +18,17 @@ public class WorldGen : MonoBehaviour
 	/// <summary>Prefab for aerial objects. Currently unused.</summary>
 	public GameObject airObject;
 	/// <summary>Player Object.</summary>
-	private GameObject player; 
+	private PlayerController player;
 	/// <summary>Distance to current farthest object. Used for knowing when to quit generating objects.</summary>
 	private float furthestMade;
 	//Distance from furthest to player where you should start spawning more. Scale this to player speed
-	public float threshold = 100f;
+	public float MaxThreshold = 500;
+	public float MinThreshold = 100;
+	private float MaxVelocity = 2.4f;
+	public float threshold = 100;
 	/// <summary>A list of currently spawned objects and references in the world. May contain null references, so check before looping.</summary>
 	private List<GameObject> spawnedObjects;
+	public float SpawnInterval = 10;
 
 	private float startNear;
 	private float startFar;
@@ -35,7 +39,7 @@ public class WorldGen : MonoBehaviour
 	{
 		spawnedObjects = new List<GameObject>();
 		furthestMade = 0;
-		player = GameObject.FindWithTag("Player");
+		player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 		GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		gameController.GameReset += gameController_GameReset;
 
@@ -48,6 +52,7 @@ public class WorldGen : MonoBehaviour
 
 	void gameController_GameReset()
 	{
+		Clear();
 		Init();
 	}
 
@@ -69,6 +74,8 @@ public class WorldGen : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (player.HasLaunched && !player.HasStopped) threshold = Mathf.Lerp(MinThreshold, MaxThreshold, Mathf.InverseLerp(0, MaxVelocity, player.PlayerRigidBody.velocity.magnitude));
+
 		//if distance from player to furthest is less than threshold OR player dist is >than furthest
 		if((furthestMade-player.transform.position.z)<threshold)
 		{
@@ -109,13 +116,13 @@ public class WorldGen : MonoBehaviour
 		}
 		else if (lane == 2) 
 		{
-			leftBound = 10.18f;
-			rightBound = 15.37f;
+			leftBound = 7.18f;
+			rightBound = 10.37f;
 		}
 		else if (lane == 3)
 		{
-			leftBound = -15.18f;
-			rightBound = -10.37f;
+			leftBound = -10.18f;
+			rightBound = -7.37f;
 		}
 
 		float x = rnd (leftBound,rightBound);
@@ -129,7 +136,7 @@ public class WorldGen : MonoBehaviour
 		float z;
 		z = rnd (near, far);
 			near = far;
-			far = far+2f;
+			far = far+SpawnInterval;
 
 		GameObject newObject = (GameObject)Instantiate (groundObject, new Vector3 (x, y, z), Quaternion.identity);
 		ObjBehavior objectBehavior = newObject.GetComponent<ObjBehavior>();

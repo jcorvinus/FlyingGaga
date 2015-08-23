@@ -7,6 +7,7 @@ public class ObjBehavior : MonoBehaviour
 {
 	//Player reference. NOTE:Player needs player tag
 	public Rigidbody PlayerRigidBody;
+	private PlayerController playerController;
 	private float OperantForce;
 	//Represents the type of object landed on
 	//1 denotes a slowing object and launches at 15 deg
@@ -24,6 +25,7 @@ public class ObjBehavior : MonoBehaviour
 	void Start () 
 	{
 		PlayerRigidBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+		playerController = PlayerRigidBody.GetComponent<PlayerController>();
 		OnEnable();
 	}
 
